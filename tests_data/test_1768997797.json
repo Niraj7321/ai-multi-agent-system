@@ -1,0 +1,80 @@
+{
+  "test_id": "test_1768997797",
+  "title": "Algorithm Design - Advanced Level",
+  "description": "Test your advanced algorithm design and optimization skills",
+  "questions": [
+    {
+      "id": "q1",
+      "title": "Binary Search",
+      "description": "Implement binary search to find an element in a sorted array.\n\nExample:\nInput Line 1: 1 3 5 7 9 (sorted array)\nInput Line 2: 5 (target)\nOutput: 2 (index where 5 is found)\n\nIf not found, output: -1\n\nRead two lines from stdin:\n1. Space-separated sorted integers\n2. Target integer to find\n\nPrint the index (0-based) or -1.",
+      "language": "python",
+      "points": 25,
+      "test_cases": [
+        {
+          "input": "1 3 5 7 9\n5",
+          "expected_output": "2"
+        },
+        {
+          "input": "2 4 6 8 10\n6",
+          "expected_output": "2"
+        },
+        {
+          "input": "1 2 3 4 5\n10",
+          "expected_output": "-1"
+        }
+      ]
+    },
+    {
+      "id": "q2",
+      "title": "Two Sum Problem",
+      "description": "Find two numbers in an array that add up to a target sum.\n\nExample:\nInput Line 1: 2 7 11 15 (array)\nInput Line 2: 9 (target)\nOutput: 0 1 (indices of 2 and 7)\n\nReturn indices in ascending order.\nIf no solution exists, output: -1 -1\n\nRead two lines from stdin:\n1. Space-separated integers\n2. Target sum\n\nPrint two indices or -1 -1.",
+      "language": "python",
+      "points": 30,
+      "test_cases": [
+        {
+          "input": "2 7 11 15\n9",
+          "expected_output": "0 1"
+        },
+        {
+          "input": "3 2 4\n6",
+          "expected_output": "1 2"
+        },
+        {
+          "input": "1 2 3\n10",
+          "expected_output": "-1 -1"
+        }
+      ]
+    },
+    {
+      "id": "q3",
+      "title": "Longest Common Subsequence",
+      "description": "Find the length of the longest common subsequence between two strings.\n\nExample:\nInput Line 1: \"abcde\"\nInput Line 2: \"ace\"\nOutput: 3 (common: a, c, e)\n\nRead two strings from stdin and print LCS length.",
+      "language": "python",
+      "points": 45,
+      "test_cases": [
+        {
+          "input": "abcde\nace",
+          "expected_output": "3"
+        },
+        {
+          "input": "abc\nabc",
+          "expected_output": "3"
+        },
+        {
+          "input": "abc\ndef",
+          "expected_output": "0"
+        }
+      ]
+    }
+  ],
+  "time_limit_minutes": 90,
+  "difficulty": "hard",
+  "tags": [
+    "Python",
+    "Algorithms",
+    "Data Structures",
+    "Advanced"
+  ],
+  "created_at": "2026-01-21T17:46:37.784364",
+  "total_points": 100
+}

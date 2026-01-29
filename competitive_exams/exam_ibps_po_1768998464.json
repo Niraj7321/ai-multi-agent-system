@@ -1,0 +1,74 @@
+{
+  "exam_id": "exam_ibps_po_1768998464",
+  "exam_name": "IBPS PO 2024 - Prelims",
+  "exam_type": "IBPS PO",
+  "description": "Institute of Banking Personnel Selection - Probationary Officer Prelims",
+  "sections": [
+    {
+      "section_name": "Reasoning Ability",
+      "questions": [
+        {
+          "question_id": "bank_reasoning_1",
+          "question": "In a certain code, COMPUTER is written as RFUVQNPC. How is MEDICINE written in that code?",
+          "options": [
+            "EFJDEJMO",
+            "MFEJDJOF",
+            "NFEJDJOF",
+            "EMDFJOJF"
+          ],
+          "correct_answer": 2,
+          "explanation": "Each letter is moved one position forward in the alphabet.",
+          "marks": 1
+        }
+      ]
+    },
+    {
+      "section_name": "Quantitative Aptitude",
+      "questions": [
+        {
+          "question_id": "bank_quant_1",
+          "question": "A sum of money at simple interest amounts to Rs. 815 in 3 years and to Rs. 854 in 4 years. The sum is:",
+          "options": [
+            "Rs. 650",
+            "Rs. 690",
+            "Rs. 698",
+            "Rs. 700"
+          ],
+          "correct_answer": 2,
+          "explanation": "Interest for 1 year = 854 - 815 = 39. So, interest for 3 years = 39 × 3 = 117. Principal = 815 - 117 = 698",
+          "marks": 1
+        }
+      ]
+    },
+    {
+      "section_name": "English Language",
+      "questions": [
+        {
+          "question_id": "bank_eng_1",
+          "question": "Choose the correct sentence:",
+          "options": [
+            "The news are good.",
+            "The news is good.",
+            "The news were good.",
+            "The news have been good."
+          ],
+          "correct_answer": 1,
+          "explanation": "'News' is an uncountable noun and takes singular verb.",
+          "marks": 1
+        }
+      ]
+    }
+  ],
+  "duration_minutes": 60,
+  "total_marks": 100,
+  "passing_marks": 40,
+  "negative_marking": 0.25,
+  "difficulty": "medium",
+  "tags": [
+    "2024",
+    "Banking",
+    "PO"
+  ],
+  "created_at": "2026-01-21T17:57:44.616851",
+  "total_questions": 3
+}

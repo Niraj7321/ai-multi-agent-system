@@ -1,0 +1,82 @@
+{
+  "exam_id": "exam_bpsc_1768998464",
+  "exam_name": "BPSC Prelims 2024",
+  "exam_type": "BPSC",
+  "description": "Bihar Public Service Commission Preliminary Examination",
+  "sections": [
+    {
+      "section_name": "General Studies",
+      "questions": [
+        {
+          "question_id": "bpsc_gs_1",
+          "question": "The Indian Constitution was adopted on:",
+          "options": [
+            "15th August 1947",
+            "26th January 1950",
+            "26th November 1949",
+            "15th August 1950"
+          ],
+          "correct_answer": 2,
+          "explanation": "The Constitution was adopted on 26th November 1949 but came into effect on 26th January 1950.",
+          "marks": 2
+        },
+        {
+          "question_id": "bpsc_gs_2",
+          "question": "Who is known as the 'Father of Indian Constitution'?",
+          "options": [
+            "Mahatma Gandhi",
+            "Jawaharlal Nehru",
+            "Dr. B.R. Ambedkar",
+            "Sardar Vallabhbhai Patel"
+          ],
+          "correct_answer": 2,
+          "explanation": "Dr. B.R. Ambedkar was the chairman of the drafting committee.",
+          "marks": 2
+        },
+        {
+          "question_id": "bpsc_gs_3",
+          "question": "The first President of India was:",
+          "options": [
+            "Dr. Rajendra Prasad",
+            "Dr. S. Radhakrishnan",
+            "Dr. Zakir Husain",
+            "V.V. Giri"
+          ],
+          "correct_answer": 0,
+          "explanation": "Dr. Rajendra Prasad was the first President of India (1950-1962).",
+          "marks": 2
+        }
+      ]
+    },
+    {
+      "section_name": "Current Affairs",
+      "questions": [
+        {
+          "question_id": "bpsc_ca_1",
+          "question": "Which country hosted the G20 Summit in 2023?",
+          "options": [
+            "USA",
+            "India",
+            "Brazil",
+            "China"
+          ],
+          "correct_answer": 1,
+          "explanation": "India hosted the G20 Summit in September 2023 in New Delhi.",
+          "marks": 2
+        }
+      ]
+    }
+  ],
+  "duration_minutes": 120,
+  "total_marks": 200,
+  "passing_marks": 80,
+  "negative_marking": 0.33,
+  "difficulty": "hard",
+  "tags": [
+    "2024",
+    "Bihar",
+    "Civil Services"
+  ],
+  "created_at": "2026-01-21T17:57:44.611520",
+  "total_questions": 4
+}

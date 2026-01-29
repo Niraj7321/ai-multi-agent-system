@@ -1,0 +1,79 @@
+{
+  "test_id": "test_1768997782",
+  "title": "String Operations - Beginner Level",
+  "description": "Test your basic string manipulation skills with Python",
+  "questions": [
+    {
+      "id": "q1",
+      "title": "Reverse a String",
+      "description": "Write a Python function that reverses a string.\n\nExample:\nInput: \"hello\"\nOutput: \"olleh\"\n\nYour function should read input from stdin and print the reversed string.",
+      "language": "python",
+      "points": 10,
+      "test_cases": [
+        {
+          "input": "hello",
+          "expected_output": "olleh"
+        },
+        {
+          "input": "Python",
+          "expected_output": "nohtyP"
+        },
+        {
+          "input": "12345",
+          "expected_output": "54321"
+        }
+      ]
+    },
+    {
+      "id": "q2",
+      "title": "Count Vowels",
+      "description": "Write a Python function that counts vowels in a string.\n\nExample:\nInput: \"hello\"\nOutput: 2\n\nCount both uppercase and lowercase vowels (a, e, i, o, u).\nRead string from stdin and print the count.",
+      "language": "python",
+      "points": 10,
+      "test_cases": [
+        {
+          "input": "hello",
+          "expected_output": "2"
+        },
+        {
+          "input": "Python Programming",
+          "expected_output": "4"
+        },
+        {
+          "input": "xyz",
+          "expected_output": "0"
+        }
+      ]
+    },
+    {
+      "id": "q3",
+      "title": "Check Palindrome",
+      "description": "Write a Python function to check if a string is a palindrome.\n\nExample:\nInput: \"madam\"\nOutput: True\n\nInput: \"hello\"\nOutput: False\n\nRead string from stdin and print True or False.",
+      "language": "python",
+      "points": 10,
+      "test_cases": [
+        {
+          "input": "madam",
+          "expected_output": "True"
+        },
+        {
+          "input": "hello",
+          "expected_output": "False"
+        },
+        {
+          "input": "racecar",
+          "expected_output": "True"
+        }
+      ]
+    }
+  ],
+  "time_limit_minutes": 30,
+  "difficulty": "easy",
+  "tags": [
+    "Python",
+    "Strings",
+    "Beginner"
+  ],
+  "created_at": "2026-01-21T17:46:22.095975",
+  "total_points": 30
+}

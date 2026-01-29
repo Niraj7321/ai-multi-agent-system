@@ -1,0 +1,92 @@
+{
+  "exam_id": "exam_ssc_cgl_1768998464",
+  "exam_name": "SSC CGL 2024 - Tier 1",
+  "exam_type": "SSC CGL",
+  "description": "Staff Selection Commission Combined Graduate Level Tier 1",
+  "sections": [
+    {
+      "section_name": "General Intelligence and Reasoning",
+      "questions": [
+        {
+          "question_id": "ssc_reasoning_1",
+          "question": "Find the odd one out: 3, 5, 11, 14, 17, 21",
+          "options": [
+            "21",
+            "14",
+            "3",
+            "5"
+          ],
+          "correct_answer": 1,
+          "explanation": "All numbers except 14 are prime numbers.",
+          "marks": 2
+        }
+      ]
+    },
+    {
+      "section_name": "Quantitative Aptitude",
+      "questions": [
+        {
+          "question_id": "ssc_quant_1",
+          "question": "If the average of 5 numbers is 27, and one number is excluded, the average becomes 25. The excluded number is:",
+          "options": [
+            "30",
+            "35",
+            "40",
+            "45"
+          ],
+          "correct_answer": 1,
+          "explanation": "Sum of 5 numbers = 27 × 5 = 135. Sum of 4 numbers = 25 × 4 = 100. Excluded number = 135 - 100 = 35",
+          "marks": 2
+        }
+      ]
+    },
+    {
+      "section_name": "English Comprehension",
+      "questions": [
+        {
+          "question_id": "ssc_eng_1",
+          "question": "Choose the synonym of 'ABUNDANT':",
+          "options": [
+            "Scarce",
+            "Plentiful",
+            "Limited",
+            "Rare"
+          ],
+          "correct_answer": 1,
+          "explanation": "Abundant means plentiful or available in large quantities.",
+          "marks": 2
+        }
+      ]
+    },
+    {
+      "section_name": "General Awareness",
+      "questions": [
+        {
+          "question_id": "ssc_ga_1",
+          "question": "The capital of Australia is:",
+          "options": [
+            "Sydney",
+            "Melbourne",
+            "Canberra",
+            "Perth"
+          ],
+          "correct_answer": 2,
+          "explanation": "Canberra is the capital city of Australia, not Sydney.",
+          "marks": 2
+        }
+      ]
+    }
+  ],
+  "duration_minutes": 60,
+  "total_marks": 200,
+  "passing_marks": 120,
+  "negative_marking": 0.5,
+  "difficulty": "medium",
+  "tags": [
+    "2024",
+    "SSC",
+    "Graduate Level"
+  ],
+  "created_at": "2026-01-21T17:57:44.613788",
+  "total_questions": 4
+}
