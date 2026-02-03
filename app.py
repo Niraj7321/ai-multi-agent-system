@@ -34,17 +34,34 @@ st.markdown(
 
     /* Main App Styling */
     .stApp {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
         font-family: 'Poppins', sans-serif;
+        position: relative;
+    }
+
+    .stApp::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background:
+            radial-gradient(circle at 20% 50%, rgba(102, 126, 234, 0.3) 0%, transparent 50%),
+            radial-gradient(circle at 80% 50%, rgba(118, 75, 162, 0.3) 0%, transparent 50%);
+        pointer-events: none;
+        z-index: 0;
     }
 
     /* Main Content Area */
     .main {
-        background: rgba(255, 255, 255, 0.95);
+        background: rgba(255, 255, 255, 0.98);
         border-radius: 20px;
         padding: 2rem;
         margin: 1rem;
         box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        position: relative;
+        z-index: 1;
     }
 
     /* Header Styling */
@@ -52,25 +69,31 @@ st.markdown(
         font-size: 3.5rem;
         font-weight: 700;
         text-align: center;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, #5568d3 0%, #6a4c93 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
         margin-bottom: 0.5rem;
         animation: fadeIn 1s ease-in;
+        filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
     }
 
     .sub-header {
         font-size: 1.3rem;
         text-align: center;
-        color: #555;
+        color: #2c3e50;
         margin-bottom: 2rem;
-        font-weight: 300;
+        font-weight: 400;
+        text-shadow: 0 1px 2px rgba(255,255,255,0.8);
     }
 
     .highlight {
-        color: #667eea;
-        font-weight: 600;
+        color: #5568d3;
+        font-weight: 700;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
     }
 
     /* Agent Cards with Glassmorphism */
@@ -130,18 +153,28 @@ st.markdown(
         border-radius: 15px;
         padding: 1.5rem;
         text-align: center;
-        box-shadow: 0 8px 25px rgba(245, 87, 108, 0.3);
+        box-shadow: 0 10px 30px rgba(245, 87, 108, 0.4);
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        transition: all 0.3s ease;
+    }
+
+    .stat-box:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 40px rgba(245, 87, 108, 0.5);
     }
 
     .stat-number {
         font-size: 2.5rem;
         font-weight: 700;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.2);
     }
 
     .stat-label {
         font-size: 1rem;
-        opacity: 0.9;
+        opacity: 1;
         margin-top: 0.5rem;
+        font-weight: 600;
+        text-shadow: 0 1px 2px rgba(0,0,0,0.15);
     }
 
     /* Buttons */
@@ -176,11 +209,27 @@ st.markdown(
 
     /* Sidebar Styling */
     [data-testid="stSidebar"] {
-        background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(180deg, #667eea 0%, #764ba2 70%, #f093fb 100%);
+        box-shadow: 2px 0 20px rgba(0,0,0,0.2);
+    }
+
+    [data-testid="stSidebar"]::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background:
+            radial-gradient(circle at 50% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+            radial-gradient(circle at 50% 80%, rgba(240, 147, 251, 0.2) 0%, transparent 50%);
+        pointer-events: none;
     }
 
     [data-testid="stSidebar"] * {
         color: white !important;
+        position: relative;
+        z-index: 1;
     }
 
     /* Success/Error Messages */
@@ -230,6 +279,9 @@ st.markdown(
     /* Tabs */
     .stTabs [data-baseweb="tab-list"] {
         gap: 2rem;
+        background: rgba(102, 126, 234, 0.05);
+        border-radius: 15px;
+        padding: 0.5rem;
     }
 
     .stTabs [data-baseweb="tab"] {
@@ -238,6 +290,19 @@ st.markdown(
         border-radius: 10px;
         padding: 0.75rem 1.5rem;
         font-weight: 600;
+        border: 2px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        transition: all 0.3s ease;
+    }
+
+    .stTabs [data-baseweb="tab"]:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+    }
+
+    .stTabs [data-baseweb="tab"][aria-selected="true"] {
+        background: linear-gradient(135deg, #5568d3 0%, #6a4c93 100%);
+        box-shadow: 0 6px 25px rgba(102, 126, 234, 0.5);
     }
     </style>
     """,
