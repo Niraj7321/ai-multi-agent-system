@@ -36,31 +36,15 @@ st.markdown(
     .stApp {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
         font-family: 'Poppins', sans-serif;
-        position: relative;
-    }
-
-    .stApp::before {
-        content: "";
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background:
-            radial-gradient(circle at 20% 50%, rgba(102, 126, 234, 0.2) 0%, transparent 50%),
-            radial-gradient(circle at 80% 50%, rgba(118, 75, 162, 0.2) 0%, transparent 50%);
-        pointer-events: none;
-        z-index: -1;
     }
 
     /* Main Content Area */
     .main {
-        background: rgba(255, 255, 255, 0.92) !important;
+        background: rgba(255, 255, 255, 0.95);
         border-radius: 20px;
         padding: 2rem;
         margin: 1rem;
         box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-        backdrop-filter: blur(10px);
     }
 
     /* Header Styling */
@@ -212,23 +196,8 @@ st.markdown(
         box-shadow: 2px 0 20px rgba(0,0,0,0.2);
     }
 
-    [data-testid="stSidebar"]::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background:
-            radial-gradient(circle at 50% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
-            radial-gradient(circle at 50% 80%, rgba(240, 147, 251, 0.2) 0%, transparent 50%);
-        pointer-events: none;
-    }
-
     [data-testid="stSidebar"] * {
         color: white !important;
-        position: relative;
-        z-index: 1;
     }
 
     /* Success/Error Messages */
