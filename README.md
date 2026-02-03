@@ -8,6 +8,25 @@
 
 ---
 
+## 📸 Screenshots & Demo
+
+### 🤖 AI Multi-Agent Content Generator
+![AI Multi-Agent System](images/screenshots/ai-multiagent-dashboard.png)
+*Research, Write, and Review workflow with AI agents*
+
+### 🎓 NrjAi Exam Preparation Platform
+![Exam Dashboard](images/screenshots/exam-dashboard.png)
+*Complete exam preparation with 25 practice sets per exam*
+
+![Test Taking Interface](images/screenshots/test-interface.png)
+*150-question test interface with timer and navigation*
+
+### 📰 Automated Blog Publishing
+![Blog Publishing](images/screenshots/blog-publisher.png)
+*Automated blog posting with trending topics*
+
+---
+
 ## 🚀 Quick Start
 
 ```bash
