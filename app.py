@@ -1,5 +1,6 @@
 """
 NrjAi - AI Multi-Agent System
+Advanced Content Generation Platform
 © 2024 NrjAi | All Rights Reserved
 """
 import streamlit as st
@@ -7,6 +8,7 @@ import os
 from pathlib import Path
 import sys
 from io import BytesIO
+import zipfile
 
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent))
@@ -15,36 +17,227 @@ from src.crew_manager import CrewManager
 from src.logger import logger
 from src.blogger_publisher import BloggerPublisher
 
-# Page config
+# Page config - Modern & Colorful
 st.set_page_config(
     page_title="NrjAi - AI Multi-Agent System",
-    page_icon="🎓",
+    page_icon="🚀",
     layout="wide",
     initial_sidebar_state="expanded",
 )
 
-# Custom CSS
+# Advanced Custom CSS with Modern Design
 st.markdown(
     """
     <style>
+    /* Import Google Fonts */
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+    /* Main App Styling */
+    .stApp {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        font-family: 'Poppins', sans-serif;
+    }
+
+    /* Main Content Area */
+    .main {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 20px;
+        padding: 2rem;
+        margin: 1rem;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+
+    /* Header Styling */
     .main-header {
-        font-size: 3rem;
-        font-weight: bold;
+        font-size: 3.5rem;
+        font-weight: 700;
         text-align: center;
-        color: #1E88E5;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 0.5rem;
+        animation: fadeIn 1s ease-in;
+    }
+
+    .sub-header {
+        font-size: 1.3rem;
+        text-align: center;
+        color: #555;
+        margin-bottom: 2rem;
+        font-weight: 300;
+    }
+
+    .highlight {
+        color: #667eea;
+        font-weight: 600;
+    }
+
+    /* Agent Cards with Glassmorphism */
+    .agent-card {
+        background: rgba(255, 255, 255, 0.25);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        border-radius: 15px;
+        padding: 1.5rem;
+        margin: 1rem 0;
+        box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+        transition: all 0.3s ease;
+    }
+
+    .agent-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 40px rgba(31, 38, 135, 0.25);
+    }
+
+    /* Feature Cards */
+    .feature-card {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-radius: 15px;
+        padding: 2rem;
+        text-align: center;
+        margin: 1rem 0;
+        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        transition: all 0.3s ease;
+    }
+
+    .feature-card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 15px 40px rgba(102, 126, 234, 0.6);
+    }
+
+    .feature-icon {
+        font-size: 3rem;
         margin-bottom: 1rem;
     }
-    .sub-header {
-        font-size: 1.2rem;
-        text-align: center;
-        color: #666;
-        margin-bottom: 2rem;
+
+    .feature-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
     }
-    .agent-card {
-        background-color: #f0f2f6;
+
+    .feature-desc {
+        font-size: 1rem;
+        opacity: 0.9;
+    }
+
+    /* Stats Counter */
+    .stat-box {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        color: white;
+        border-radius: 15px;
         padding: 1.5rem;
+        text-align: center;
+        box-shadow: 0 8px 25px rgba(245, 87, 108, 0.3);
+    }
+
+    .stat-number {
+        font-size: 2.5rem;
+        font-weight: 700;
+    }
+
+    .stat-label {
+        font-size: 1rem;
+        opacity: 0.9;
+        margin-top: 0.5rem;
+    }
+
+    /* Buttons */
+    .stButton>button {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-radius: 25px;
+        padding: 0.75rem 2rem;
+        font-weight: 600;
+        border: none;
+        box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        transition: all 0.3s ease;
+    }
+
+    .stButton>button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 30px rgba(102, 126, 234, 0.6);
+    }
+
+    /* Input Fields */
+    .stTextInput>div>div>input {
         border-radius: 10px;
-        margin: 1rem 0;
+        border: 2px solid #e0e0e0;
+        padding: 0.75rem;
+        transition: all 0.3s ease;
+    }
+
+    .stTextInput>div>div>input:focus {
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    /* Sidebar Styling */
+    [data-testid="stSidebar"] {
+        background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+    }
+
+    [data-testid="stSidebar"] * {
+        color: white !important;
+    }
+
+    /* Success/Error Messages */
+    .stSuccess {
+        background-color: #d4edda;
+        border-color: #c3e6cb;
+        border-radius: 10px;
+    }
+
+    .stError {
+        background-color: #f8d7da;
+        border-color: #f5c6cb;
+        border-radius: 10px;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideIn {
+        from { opacity: 0; transform: translateX(-30px); }
+        to { opacity: 1; transform: translateX(0); }
+    }
+
+    /* Progress Bar */
+    .stProgress > div > div > div {
+        background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    }
+
+    /* Divider */
+    hr {
+        border: none;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, #667eea, transparent);
+        margin: 2rem 0;
+    }
+
+    /* Expander */
+    .streamlit-expanderHeader {
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+        border-radius: 10px;
+        font-weight: 600;
+    }
+
+    /* Tabs */
+    .stTabs [data-baseweb="tab-list"] {
+        gap: 2rem;
+    }
+
+    .stTabs [data-baseweb="tab"] {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-radius: 10px;
+        padding: 0.75rem 1.5rem;
+        font-weight: 600;
     }
     </style>
     """,
@@ -67,120 +260,154 @@ def init_session_state():
 
 
 def display_header():
-    """Display application header"""
-    st.markdown('<p class="main-header">🎓 NrjAi - AI Multi-Agent System</p>', unsafe_allow_html=True)
+    """Display modern animated header"""
     st.markdown(
-        '<p class="sub-header">Generate Original, Copyright-Free Content | Research • Write • Review</p>',
+        '<p class="main-header">🚀 NrjAi - AI Multi-Agent System</p>',
+        unsafe_allow_html=True
+    )
+    st.markdown(
+        '<p class="sub-header">Powered by <span class="highlight">4 AI Agents</span> • Research • Write • Review • Present</p>',
         unsafe_allow_html=True,
     )
-    st.caption("© 2024 NrjAi | All Rights Reserved")
+
+    # Feature Highlights
+    col1, col2, col3, col4 = st.columns(4)
+
+    with col1:
+        st.markdown("""
+        <div class="stat-box">
+            <div class="stat-number">🔬</div>
+            <div class="stat-label">Research Agent</div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with col2:
+        st.markdown("""
+        <div class="stat-box" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+            <div class="stat-number">✍️</div>
+            <div class="stat-label">Writer Agent</div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with col3:
+        st.markdown("""
+        <div class="stat-box" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+            <div class="stat-number">🔍</div>
+            <div class="stat-label">Review Agent</div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with col4:
+        st.markdown("""
+        <div class="stat-box" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+            <div class="stat-number">🎨</div>
+            <div class="stat-label">Presentation Agent</div>
+        </div>
+        """, unsafe_allow_html=True)
 
 
 def display_sidebar():
-    """Display sidebar with configuration"""
+    """Display modern sidebar with configuration"""
     with st.sidebar:
         st.title("⚙️ Configuration")
+        st.caption("Configure your AI agents")
 
-        # Provider selection
+        st.divider()
+
+        # Provider selection with icon
         use_anthropic = st.checkbox(
-            "Use Anthropic Claude",
+            "🤖 Use Anthropic Claude",
             value=os.getenv("USE_ANTHROPIC", "").lower() == "true",
-            help="Use Claude instead of GPT"
+            help="Use Claude instead of GPT for better results"
         )
 
-        # API Key input
-        api_key_label = "Anthropic API Key" if use_anthropic else "OpenAI API Key"
+        # API Key input with modern styling
+        api_key_label = "🔑 Anthropic API Key" if use_anthropic else "🔑 OpenAI API Key"
         api_key_env = "ANTHROPIC_API_KEY" if use_anthropic else "OPENAI_API_KEY"
         api_key = st.text_input(
             api_key_label,
             type="password",
             value=os.getenv(api_key_env, ""),
-            help=f"Enter your {api_key_label}",
+            help=f"Enter your API key securely",
         )
 
-        # Model selection
+        # Model selection with descriptions
         if use_anthropic:
-            model_options = [
-                "claude-sonnet-4-20250514",
-                "claude-opus-4-20250514",
-                "claude-sonnet-3-7-20250219",
-                "claude-haiku-3-5-20241022"
-            ]
-            default_model = "claude-sonnet-4-20250514"
+            model_options = {
+                "claude-sonnet-4-20250514": "Claude Sonnet 4 - Best Balance",
+                "claude-opus-4-20250514": "Claude Opus 4 - Most Powerful",
+                "claude-sonnet-3-7-20250219": "Claude Sonnet 3.7 - Fast",
+                "claude-haiku-3-5-20241022": "Claude Haiku 3.5 - Fastest"
+            }
         else:
-            model_options = ["gpt-4-turbo-preview", "gpt-4", "gpt-3.5-turbo"]
-            default_model = "gpt-4-turbo-preview"
+            model_options = {
+                "gpt-4-turbo-preview": "GPT-4 Turbo - Best Balance",
+                "gpt-4": "GPT-4 - Most Capable",
+                "gpt-3.5-turbo": "GPT-3.5 Turbo - Fastest"
+            }
 
         model_name = st.selectbox(
-            "Model",
-            model_options,
-            index=0,
-            help="Select the LLM model to use",
+            "🧠 AI Model",
+            list(model_options.keys()),
+            format_func=lambda x: model_options[x],
+            help="Select the AI model to power your agents",
         )
 
-        # Temperature slider
+        # Temperature slider with icon
         temperature = st.slider(
-            "Temperature",
+            "🌡️ Temperature",
             min_value=0.0,
             max_value=1.0,
             value=0.7,
             step=0.1,
-            help="Controls randomness in output",
+            help="Higher = More creative | Lower = More focused",
         )
 
         st.divider()
 
-        # Agent information
-        st.title("🤵 Agents")
+        # Agent Information with modern cards
+        st.title("🤵 AI Agent Team")
+        st.caption("Your intelligent workforce")
 
-        with st.expander("👨‍🔬 Research Agent"):
-            st.write(
-                """
-                **Role:** Senior Research Analyst
+        agents_info = [
+            {
+                "icon": "👨‍🔬",
+                "title": "Research Agent",
+                "role": "Senior Research Analyst",
+                "skills": ["Web Research", "Data Analysis", "Fact Checking"]
+            },
+            {
+                "icon": "✍️",
+                "title": "Writer Agent",
+                "role": "Senior Content Writer",
+                "skills": ["Content Creation", "SEO Writing", "Storytelling"]
+            },
+            {
+                "icon": "🔍",
+                "title": "Reviewer Agent",
+                "role": "Quality Assurance Specialist",
+                "skills": ["Quality Control", "Accuracy Check", "Feedback"]
+            },
+            {
+                "icon": "🎨",
+                "title": "Presentation Agent",
+                "role": "Presentation Designer",
+                "skills": ["Slide Design", "Visual Layout", "Export to PPTX/PDF"]
+            }
+        ]
 
-                **Capabilities:**
-                - Web search and information gathering
-                - Data analysis and extraction
-                - Source verification
-                """
-            )
+        for agent in agents_info:
+            with st.expander(f"{agent['icon']} {agent['title']}"):
+                st.markdown(f"**Role:** {agent['role']}")
+                st.markdown("**Skills:**")
+                for skill in agent['skills']:
+                    st.markdown(f"• {skill}")
 
-        with st.expander("✍️ Writer Agent"):
-            st.write(
-                """
-                **Role:** Senior Content Writer
+        st.divider()
 
-                **Capabilities:**
-                - Content creation and structuring
-                - Clear and engaging writing
-                - Markdown formatting
-                """
-            )
-
-        with st.expander("🔍 Reviewer Agent"):
-            st.write(
-                """
-                **Role:** Quality Assurance Specialist
-
-                **Capabilities:**
-                - Accuracy verification
-                - Quality assessment
-                - Constructive feedback
-                """
-            )
-
-        with st.expander("🎨 Presentation Agent"):
-            st.write(
-                """
-                **Role:** Senior Presentation Designer
-
-                **Capabilities:**
-                - Convert text to slides
-                - Structure content for presentations
-                - Create engaging slide decks
-                - Visual hierarchy design
-                """
-            )
+        # Footer
+        st.caption("© 2024 NrjAi | All Rights Reserved")
+        st.caption("Version 2.0 - Advanced Edition")
 
         return api_key, model_name, temperature, use_anthropic
 
@@ -191,352 +418,365 @@ def main():
     display_header()
     api_key, model_name, temperature, use_anthropic = display_sidebar()
 
-    # Main content area
     st.divider()
 
-    # Input section
-    col1, col2 = st.columns([3, 1])
+    # Main Content Tabs
+    tab1, tab2, tab3 = st.tabs(["📝 Generate Content", "📊 Publish to Blog", "ℹ️ About"])
 
-    with col1:
-        topic = st.text_input(
-            "🔍 Research Topic",
-            placeholder="e.g., Artificial Intelligence in Healthcare 2026",
-            help="Enter the topic you want to research and create content about",
-        )
+    with tab1:
+        # Input section with modern design
+        st.markdown("### 🎯 What would you like to create?")
 
-    with col2:
-        content_type = st.selectbox(
-            "📝 Content Type",
-            ["blog post", "article", "report", "white paper", "presentation"],
-            help="Choose content format - presentation creates slide decks"
-        )
+        col1, col2 = st.columns([3, 1])
 
-    # Execute button
-    col1, col2, col3 = st.columns([2, 1, 2])
-    with col2:
-        execute_button = st.button(
-            "🚀 Start Research", use_container_width=True, type="primary"
-        )
+        with col1:
+            topic = st.text_input(
+                "🔍 Research Topic",
+                placeholder="e.g., Artificial Intelligence in Healthcare 2026",
+                help="Enter any topic and let our AI agents do the research",
+                label_visibility="collapsed"
+            )
 
-    # Execution logic
-    if execute_button:
-        if not topic:
-            st.error("⚠️ Please enter a research topic")
-            return
+        with col2:
+            content_type = st.selectbox(
+                "📝 Format",
+                ["blog post", "article", "report", "white paper", "presentation"],
+                help="Choose your output format",
+                label_visibility="collapsed"
+            )
 
-        if not api_key:
-            st.error("⚠️ Please enter your OpenAI API key in the sidebar")
-            return
+        # Execute button with modern styling
+        col1, col2, col3 = st.columns([1, 1, 1])
+        with col2:
+            execute_button = st.button(
+                "🚀 Generate Content",
+                use_container_width=True,
+                type="primary",
+                help="Start the multi-agent workflow"
+            )
 
-        st.session_state.is_running = True
+        # Execution logic
+        if execute_button:
+            if not topic:
+                st.error("⚠️ Please enter a research topic")
+                return
 
-        # Progress section
-        with st.status("🔄 Multi-Agent Workflow in Progress...", expanded=True) as status:
-            try:
-                # Initialize crew manager
-                st.write("🔧 Initializing AI agents...")
-                manager = CrewManager(
-                    model_name=model_name,
-                    temperature=temperature,
-                    api_key=api_key,
-                    use_anthropic=use_anthropic
-                )
+            if not api_key:
+                st.error("⚠️ Please enter your API key in the sidebar")
+                return
 
-                # Execute workflow based on content type
-                if content_type == "presentation":
-                    st.write("👨‍🔬 Research Agent is gathering information...")
-                    st.write("✍️ Writer Agent is creating content...")
-                    st.write("🎨 Presentation Agent is designing slides...")
-                    result = manager.execute_presentation_workflow(topic)
-                else:
-                    st.write("👨‍🔬 Research Agent is gathering information...")
-                    st.write("✍️ Writer Agent is creating content...")
-                    st.write("🔍 Reviewer Agent is performing quality check...")
-                    result = manager.execute_research_workflow(topic, content_type)
+            st.session_state.is_running = True
 
-                st.session_state.execution_result = result
-                st.session_state.is_running = False
-
-                if result["success"]:
-                    status.update(
-                        label="✅ Workflow Completed Successfully!", state="complete"
+            # Modern progress display
+            with st.status("🔄 AI Agents Working...", expanded=True) as status:
+                try:
+                    # Initialize crew manager
+                    st.write("🔧 Initializing AI agent team...")
+                    manager = CrewManager(
+                        model_name=model_name,
+                        temperature=temperature,
+                        api_key=api_key,
+                        use_anthropic=use_anthropic
                     )
-                else:
-                    status.update(label="❌ Workflow Failed", state="error")
 
-            except Exception as e:
-                logger.error(f"Error during execution: {str(e)}")
-                st.session_state.is_running = False
-                status.update(label="❌ Error Occurred", state="error")
-                st.error(f"Error: {str(e)}")
+                    # Execute workflow based on content type
+                    if content_type == "presentation":
+                        st.write("👨‍🔬 **Research Agent** gathering information...")
+                        st.write("✍️ **Writer Agent** creating content...")
+                        st.write("🎨 **Presentation Agent** designing slides...")
+                        result = manager.execute_presentation_workflow(topic)
+                    else:
+                        st.write("👨‍🔬 **Research Agent** analyzing topic...")
+                        st.write("✍️ **Writer Agent** crafting content...")
+                        st.write("🔍 **Reviewer Agent** checking quality...")
+                        result = manager.execute_research_workflow(topic, content_type)
 
-    # Display results
-    if st.session_state.execution_result:
-        result = st.session_state.execution_result
+                    st.session_state.execution_result = result
+                    status.update(label="✅ Content Generated Successfully!", state="complete")
 
-        st.divider()
-        st.subheader("📊 Results")
+                except Exception as e:
+                    status.update(label="❌ Error Occurred", state="error")
+                    st.error(f"Error: {str(e)}")
+                    logger.error(f"Execution error: {str(e)}")
+                    st.session_state.is_running = False
+                    return
 
-        if result["success"]:
-            # Display the final output
-            st.success(result["message"])
+        # Display results with modern cards
+        if st.session_state.execution_result:
+            result = st.session_state.execution_result
 
-            # Create tabs for different outputs
-            tab1, tab2 = st.tabs(["📄 Final Content", "📋 Workflow Details"])
+            if result["success"]:
+                st.success("✅ Your content is ready!")
 
-            with tab1:
-                # Convert CrewOutput to string
+                # Result card
+                st.markdown("### 📄 Generated Content")
+
+                col1, col2, col3 = st.columns([1, 1, 1])
+                with col1:
+                    st.metric("Type", result['content_type'].title())
+                with col2:
+                    st.metric("Topic", result['topic'][:30] + "...")
+                with col3:
+                    st.metric("Status", "✅ Complete")
+
                 output_text = str(result["result"])
-                st.markdown(output_text)
 
-                # Export options
+                # Display content in styled container
+                with st.expander("👁️ View Content", expanded=True):
+                    st.markdown(output_text)
+
+                st.divider()
+
+                # Download section with multiple options
+                st.markdown("### 📥 Download Options")
+
                 if result['content_type'] == "presentation":
-                    st.subheader("📥 Export Presentation")
-
+                    # Presentation exports
                     col1, col2, col3, col4 = st.columns(4)
 
                     with col1:
-                        # Markdown download
                         st.download_button(
                             label="📝 Markdown",
                             data=output_text,
-                            file_name=f"{result['topic'].replace(' ', '_')}.md",
+                            file_name=f"{result['topic']}.md",
                             mime="text/markdown",
                             use_container_width=True
                         )
 
                     with col2:
-                        # PowerPoint export
                         try:
                             from src.presentation_exporter import export_presentation
                             pptx_data = export_presentation(output_text, 'pptx', result['topic'])
                             st.download_button(
                                 label="📊 PowerPoint",
                                 data=pptx_data,
-                                file_name=f"{result['topic'].replace(' ', '_')}.pptx",
+                                file_name=f"{result['topic']}.pptx",
                                 mime="application/vnd.openxmlformats-officedocument.presentationml.presentation",
                                 use_container_width=True
                             )
                         except Exception as e:
-                            st.button("📊 PowerPoint", disabled=True, use_container_width=True, help=f"Install python-pptx: {str(e)}")
+                            st.warning("PowerPoint export unavailable")
 
                     with col3:
-                        # HTML export
                         try:
                             from src.presentation_exporter import export_presentation
                             html_data = export_presentation(output_text, 'html', result['topic'])
                             st.download_button(
                                 label="🌐 HTML",
                                 data=html_data,
-                                file_name=f"{result['topic'].replace(' ', '_')}.html",
+                                file_name=f"{result['topic']}.html",
                                 mime="text/html",
                                 use_container_width=True
                             )
                         except Exception as e:
-                            st.button("🌐 HTML", disabled=True, use_container_width=True, help=f"Install markdown: {str(e)}")
+                            st.warning("HTML export unavailable")
 
                     with col4:
-                        # PDF export
                         try:
                             from src.presentation_exporter import export_presentation
                             pdf_data = export_presentation(output_text, 'pdf', result['topic'])
                             st.download_button(
                                 label="📄 PDF",
                                 data=pdf_data,
-                                file_name=f"{result['topic'].replace(' ', '_')}.pdf",
+                                file_name=f"{result['topic']}.pdf",
                                 mime="application/pdf",
                                 use_container_width=True
                             )
                         except Exception as e:
-                            st.button("📄 PDF", disabled=True, use_container_width=True, help=f"Install weasyprint: {str(e)}")
+                            st.warning("PDF export unavailable")
 
-                    # Export All button with multiprocessing
-                    st.markdown("---")
-                    st.markdown("**⚡ Quick Export (Multiprocessing):**")
-
+                    # Export all button
+                    st.divider()
                     if st.button("🚀 Export to All Formats (Parallel)", type="primary", use_container_width=True):
                         try:
                             from src.presentation_exporter import export_presentation_parallel
-                            import zipfile
-                            from datetime import datetime
 
-                            with st.spinner("Exporting to all formats in parallel... ⚡"):
-                                # Export to all formats simultaneously using multiprocessing
-                                exports = export_presentation_parallel(
-                                    output_text,
-                                    result['topic'],
-                                    formats=['pptx', 'html', 'pdf']
-                                )
+                            with st.spinner("Exporting to all formats..."):
+                                exports = export_presentation_parallel(output_text, result['topic'])
 
-                                # Create ZIP file with all exports
+                                # Create ZIP file
                                 zip_buffer = BytesIO()
                                 with zipfile.ZipFile(zip_buffer, 'w', zipfile.ZIP_DEFLATED) as zip_file:
-                                    base_name = result['topic'].replace(' ', '_')
+                                    base_name = result['topic'].replace(' ', '_').replace('/', '_')[:50]
 
-                                    # Add Markdown
                                     zip_file.writestr(f"{base_name}.md", output_text)
 
-                                    # Add PowerPoint
                                     if 'pptx' in exports and not isinstance(exports['pptx'], str):
                                         zip_file.writestr(f"{base_name}.pptx", exports['pptx'].read())
 
-                                    # Add HTML
                                     if 'html' in exports:
                                         zip_file.writestr(f"{base_name}.html", exports['html'])
 
-                                    # Add PDF
                                     if 'pdf' in exports and not isinstance(exports['pdf'], str):
                                         zip_file.writestr(f"{base_name}.pdf", exports['pdf'].read())
 
                                 zip_buffer.seek(0)
 
-                                st.success("✅ Exported to all formats! Download ZIP file below:")
                                 st.download_button(
                                     label="📦 Download All Formats (ZIP)",
                                     data=zip_buffer,
-                                    file_name=f"{result['topic'].replace(' ', '_')}_all_formats.zip",
+                                    file_name=f"{base_name}_all_formats.zip",
                                     mime="application/zip",
                                     use_container_width=True
                                 )
 
-                                st.info("⚡ **Multiprocessing:** All formats exported simultaneously (3x faster!)")
-
+                                st.success("✅ All formats exported successfully!")
                         except Exception as e:
-                            st.error(f"Error during parallel export: {str(e)}")
-
+                            st.error(f"Export error: {str(e)}")
                 else:
-                    # Standard content download
-                    st.download_button(
-                        label="📥 Download Content",
-                        data=output_text,
-                        file_name=f"{result['topic'].replace(' ', '_')}.md",
-                        mime="text/markdown",
-                    )
+                    # Regular content export
+                    col1, col2 = st.columns(2)
+                    with col1:
+                        st.download_button(
+                            label="📝 Download Markdown",
+                            data=output_text,
+                            file_name=f"{result['topic']}.md",
+                            mime="text/markdown",
+                            use_container_width=True
+                        )
+                    with col2:
+                        st.download_button(
+                            label="📄 Download Text",
+                            data=output_text,
+                            file_name=f"{result['topic']}.txt",
+                            mime="text/plain",
+                            use_container_width=True
+                        )
+            else:
+                st.error(f"❌ {result['message']}")
 
-            with tab2:
-                st.json(
-                    {
-                        "topic": result["topic"],
-                        "content_type": result["content_type"],
-                        "status": "Success",
-                    }
+    with tab2:
+        st.markdown("### 📤 Publish to Blogger")
+        st.info("💡 Connect your Blogger account to publish content directly")
+
+        # Blogger configuration
+        with st.expander("⚙️ Configure Blogger"):
+            st.markdown("""
+            **Setup Instructions:**
+            1. Go to [Google Cloud Console](https://console.cloud.google.com/)
+            2. Create OAuth 2.0 credentials
+            3. Download credentials.json
+            4. Place it in the project root
+            5. Authorize the app
+            """)
+
+        if st.button("📊 View My Blogs"):
+            try:
+                if st.session_state.blogger_publisher is None:
+                    st.session_state.blogger_publisher = BloggerPublisher()
+
+                blogs = st.session_state.blogger_publisher.get_user_blogs()
+                st.session_state.user_blogs = blogs
+
+                if blogs:
+                    st.success(f"✅ Found {len(blogs)} blog(s)")
+                    for blog in blogs:
+                        with st.expander(f"📝 {blog['name']}"):
+                            st.write(f"**URL:** {blog['url']}")
+                            st.write(f"**Posts:** {blog.get('posts', {}).get('totalItems', 0)}")
+                else:
+                    st.warning("No blogs found")
+            except Exception as e:
+                st.error(f"Error: {str(e)}")
+
+        # Publish section
+        if st.session_state.execution_result and st.session_state.user_blogs:
+            result = st.session_state.execution_result
+
+            if result["success"] and result['content_type'] != "presentation":
+                st.divider()
+                st.markdown("### 📤 Publish Content")
+
+                blog_choice = st.selectbox(
+                    "Select Blog",
+                    options=[blog['name'] for blog in st.session_state.user_blogs],
                 )
 
-            # Blogger Publishing Section (only for blog posts)
-            if result.get("content_type") == "blog post":
-                st.divider()
-                st.subheader("📝 Publish to Blogger")
+                post_title = st.text_input(
+                    "Post Title",
+                    value=result['topic']
+                )
 
-                col1, col2 = st.columns([2, 1])
-
-                with col1:
-                    st.info("📌 Publish your blog post directly to Blogger/Blogspot")
-
-                with col2:
-                    if st.button("🔑 Connect to Blogger", use_container_width=True):
-                        try:
-                            with st.spinner("Authenticating with Blogger..."):
-                                st.session_state.blogger_publisher = BloggerPublisher()
-                                st.session_state.blogger_publisher.authenticate()
-                                st.session_state.user_blogs = st.session_state.blogger_publisher.get_blogs()
-
-                                if st.session_state.user_blogs:
-                                    st.success(f"✅ Connected! Found {len(st.session_state.user_blogs)} blog(s)")
-                                else:
-                                    st.warning("⚠️ No blogs found. Create a blog at blogger.com first.")
-                        except FileNotFoundError as e:
-                            st.error(str(e))
-                            st.info("📖 See BLOGGER_SETUP.md for setup instructions")
-                        except Exception as e:
-                            st.error(f"❌ Authentication failed: {str(e)}")
-
-                # Show publishing controls if authenticated
-                if st.session_state.user_blogs:
-                    st.markdown("---")
-
-                    col1, col2 = st.columns(2)
-
-                    with col1:
-                        # Blog selection
-                        blog_names = [f"{blog['name']} ({blog['url']})" for blog in st.session_state.user_blogs]
-                        selected_blog_idx = st.selectbox(
-                            "Select Blog",
-                            range(len(blog_names)),
-                            format_func=lambda x: blog_names[x],
-                            help="Choose which blog to publish to"
-                        )
-                        selected_blog = st.session_state.user_blogs[selected_blog_idx]
-
-                        # Labels/tags
-                        labels_input = st.text_input(
-                            "Labels/Tags (optional)",
-                            placeholder="e.g., AI, Tutorial, Python",
-                            help="Comma-separated tags for your post"
-                        )
-                        labels = [label.strip() for label in labels_input.split(",")] if labels_input else None
-
-                    with col2:
-                        # Draft vs Publish
-                        is_draft = st.checkbox(
-                            "Save as Draft",
-                            value=False,
-                            help="Save as draft instead of publishing immediately"
+                if st.button("🚀 Publish to Blogger", type="primary"):
+                    try:
+                        selected_blog = next(
+                            b for b in st.session_state.user_blogs if b['name'] == blog_choice
                         )
 
-                        st.write("")  # Spacing
-                        st.write("")  # Spacing
+                        with st.spinner("Publishing..."):
+                            published = st.session_state.blogger_publisher.publish_post(
+                                blog_id=selected_blog['id'],
+                                title=post_title,
+                                content=str(result['result']),
+                            )
 
-                        # Publish button
-                        if st.button("🚀 Publish to Blogger", use_container_width=True, type="primary"):
-                            try:
-                                with st.spinner("Publishing to Blogger..."):
-                                    # Extract title from content (first line/heading)
-                                    output_text = str(result["result"])
-                                    lines = output_text.split("\n")
-                                    title = lines[0].replace("#", "").strip() if lines else result["topic"]
+                            if published:
+                                st.success(f"✅ Published to {blog_choice}")
+                                st.balloons()
+                            else:
+                                st.error("❌ Publishing failed")
+                    except Exception as e:
+                        st.error(f"Error: {str(e)}")
 
-                                    # Publish the post
-                                    publish_result = st.session_state.blogger_publisher.publish_post(
-                                        blog_id=selected_blog['id'],
-                                        title=title,
-                                        content=output_text,
-                                        labels=labels,
-                                        is_draft=is_draft
-                                    )
+    with tab3:
+        st.markdown("### ℹ️ About NrjAi")
 
-                                    st.session_state.publish_result = publish_result
+        col1, col2 = st.columns(2)
 
-                                    if publish_result['success']:
-                                        st.success(f"✅ {publish_result['message']}")
-                                        st.markdown(f"**Post URL:** [{publish_result['url']}]({publish_result['url']})")
-                                        st.balloons()
-                                    else:
-                                        st.error(f"❌ {publish_result['message']}")
+        with col1:
+            st.markdown("""
+            <div class="feature-card">
+                <div class="feature-icon">🤖</div>
+                <div class="feature-title">4 AI Agents</div>
+                <div class="feature-desc">Collaborative intelligence working for you</div>
+            </div>
+            """, unsafe_allow_html=True)
 
-                            except Exception as e:
-                                st.error(f"❌ Publishing failed: {str(e)}")
+            st.markdown("""
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <div class="feature-title">Lightning Fast</div>
+                <div class="feature-desc">Parallel processing for maximum speed</div>
+            </div>
+            """, unsafe_allow_html=True)
 
-                    # Show last publish result
-                    if st.session_state.publish_result:
-                        st.divider()
-                        with st.expander("📊 Last Publish Details"):
-                            st.json(st.session_state.publish_result)
+        with col2:
+            st.markdown("""
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <div class="feature-title">Multiple Formats</div>
+                <div class="feature-desc">Export to PowerPoint, PDF, HTML, Markdown</div>
+            </div>
+            """, unsafe_allow_html=True)
 
-        else:
-            st.error(result["message"])
+            st.markdown("""
+            <div class="feature-card">
+                <div class="feature-icon">🎨</div>
+                <div class="feature-title">Beautiful Design</div>
+                <div class="feature-desc">Professional templates ready to use</div>
+            </div>
+            """, unsafe_allow_html=True)
 
-    # Footer
-    st.divider()
-    st.markdown(
-        """
-        <div style='text-align: center; color: #666; padding: 2rem 0;'>
-            <p>Built with CrewAI, LangChain, and Streamlit | Multi-Agent AI System Demo</p>
-            <p>✅ All generated content is 100% original and copyright-free</p>
-            <p>⭐ Showcase project for AI/ML Engineer Portfolio</p>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
+        st.divider()
+
+        st.markdown("### 🚀 Features")
+        features = [
+            "✅ Research any topic with AI-powered web search",
+            "✅ Generate blog posts, articles, reports, white papers",
+            "✅ Create professional presentations with slide export",
+            "✅ Multi-format export (PPTX, PDF, HTML, Markdown)",
+            "✅ Parallel processing for 3-5x faster generation",
+            "✅ Quality review by dedicated AI agent",
+            "✅ Direct publishing to Blogger platform",
+            "✅ Modern, colorful, responsive UI"
+        ]
+
+        for feature in features:
+            st.markdown(feature)
+
+        st.divider()
+        st.markdown("**© 2024 NrjAi | All Rights Reserved**")
+        st.markdown("Built with ❤️ using Streamlit, CrewAI, and Claude/GPT")
 
 
 if __name__ == "__main__":
