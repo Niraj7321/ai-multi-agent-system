@@ -40,43 +40,77 @@ st.markdown(
 
     /* Main Content Area */
     .main {
-        background: rgba(255, 255, 255, 0.95);
+        background: #ffffff;
         border-radius: 20px;
         padding: 2rem;
         margin: 1rem;
         box-shadow: 0 20px 60px rgba(0,0,0,0.3);
     }
 
+    /* Force all main content text to be black */
+    .main .stMarkdown, .main p, .main h1, .main h2, .main h3, .main label, .main span {
+        color: #000000 !important;
+    }
+
+    /* Streamlit Labels and Form Text - Make them dark and visible */
+    label {
+        color: #000000 !important;
+        font-weight: 700 !important;
+        font-size: 1.1rem !important;
+    }
+
+    /* Markdown and general text */
+    .stMarkdown p, .stMarkdown h1, .stMarkdown h2, .stMarkdown h3 {
+        color: #000000 !important;
+        font-weight: 600 !important;
+    }
+
+    /* Form elements text */
+    .stSelectbox label, .stTextInput label, .stTextArea label, .stNumberInput label {
+        color: #000000 !important;
+        font-weight: 700 !important;
+        font-size: 1.1rem !important;
+    }
+
+    /* Regular paragraph text */
+    p {
+        color: #000000 !important;
+        font-weight: 500 !important;
+    }
+
+    /* Exception for custom headers */
+    p.main-header {
+        color: #000000 !important;
+        font-weight: 800 !important;
+    }
+
+    p.sub-header {
+        color: #000000 !important;
+        font-weight: 600 !important;
+    }
+
     /* Header Styling */
     .main-header {
         font-size: 3.5rem;
-        font-weight: 700;
+        font-weight: 800;
         text-align: center;
-        background: linear-gradient(135deg, #5568d3 0%, #6a4c93 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
+        color: #000000;
         margin-bottom: 0.5rem;
         animation: fadeIn 1s ease-in;
-        filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        text-shadow: 3px 3px 6px rgba(0,0,0,0.2);
     }
 
     .sub-header {
         font-size: 1.3rem;
         text-align: center;
-        color: #2c3e50;
+        color: #1a1a1a;
         margin-bottom: 2rem;
-        font-weight: 400;
-        text-shadow: 0 1px 2px rgba(255,255,255,0.8);
+        font-weight: 600;
     }
 
     .highlight {
-        color: #5568d3;
-        font-weight: 700;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
+        color: #5a4fc7;
+        font-weight: 800;
     }
 
     /* Agent Cards with Glassmorphism */
@@ -96,10 +130,15 @@ st.markdown(
         box-shadow: 0 12px 40px rgba(31, 38, 135, 0.25);
     }
 
+    .agent-card * {
+        color: #1a1a1a !important;
+        font-weight: 600 !important;
+    }
+
     /* Feature Cards */
     .feature-card {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
+        color: white !important;
         border-radius: 15px;
         padding: 2rem;
         text-align: center;
@@ -111,6 +150,10 @@ st.markdown(
     .feature-card:hover {
         transform: scale(1.05);
         box-shadow: 0 15px 40px rgba(102, 126, 234, 0.6);
+    }
+
+    .feature-card * {
+        color: white !important;
     }
 
     .feature-icon {
@@ -132,7 +175,7 @@ st.markdown(
     /* Stats Counter */
     .stat-box {
         background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-        color: white;
+        color: white !important;
         border-radius: 15px;
         padding: 1.5rem;
         text-align: center;
@@ -144,6 +187,10 @@ st.markdown(
     .stat-box:hover {
         transform: translateY(-5px);
         box-shadow: 0 15px 40px rgba(245, 87, 108, 0.5);
+    }
+
+    .stat-box * {
+        color: white !important;
     }
 
     .stat-number {
@@ -163,7 +210,19 @@ st.markdown(
     /* Buttons */
     .stButton>button {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
+        color: white !important;
+        border-radius: 25px;
+        padding: 0.75rem 2rem;
+        font-weight: 600;
+        border: none;
+        box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        transition: all 0.3s ease;
+    }
+
+    /* Download buttons */
+    .stDownloadButton>button {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white !important;
         border-radius: 25px;
         padding: 0.75rem 2rem;
         font-weight: 600;
@@ -183,11 +242,25 @@ st.markdown(
         border: 2px solid #e0e0e0;
         padding: 0.75rem;
         transition: all 0.3s ease;
+        color: #000000 !important;
+        background-color: #ffffff !important;
     }
 
     .stTextInput>div>div>input:focus {
         border-color: #667eea;
         box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    /* Select Box */
+    .stSelectbox select {
+        color: #000000 !important;
+        background-color: #ffffff !important;
+    }
+
+    /* Text Area */
+    .stTextArea textarea {
+        color: #000000 !important;
+        background-color: #ffffff !important;
     }
 
     /* Sidebar Styling */
@@ -242,6 +315,13 @@ st.markdown(
         background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
         border-radius: 10px;
         font-weight: 600;
+        color: #000000 !important;
+    }
+
+    /* Info/Warning/Error boxes text */
+    .stAlert p, .stInfo p, .stWarning p, .stError p, .stSuccess p {
+        color: #1a1a1a !important;
+        font-weight: 500 !important;
     }
 
     /* Tabs */
@@ -254,7 +334,7 @@ st.markdown(
 
     .stTabs [data-baseweb="tab"] {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
+        color: white !important;
         border-radius: 10px;
         padding: 0.75rem 1.5rem;
         font-weight: 600;
@@ -271,6 +351,10 @@ st.markdown(
     .stTabs [data-baseweb="tab"][aria-selected="true"] {
         background: linear-gradient(135deg, #5568d3 0%, #6a4c93 100%);
         box-shadow: 0 6px 25px rgba(102, 126, 234, 0.5);
+    }
+
+    .stTabs [data-baseweb="tab"] * {
+        color: white !important;
     }
     </style>
     """,
