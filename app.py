@@ -47,21 +47,20 @@ st.markdown(
         width: 100%;
         height: 100%;
         background:
-            radial-gradient(circle at 20% 50%, rgba(102, 126, 234, 0.3) 0%, transparent 50%),
-            radial-gradient(circle at 80% 50%, rgba(118, 75, 162, 0.3) 0%, transparent 50%);
+            radial-gradient(circle at 20% 50%, rgba(102, 126, 234, 0.2) 0%, transparent 50%),
+            radial-gradient(circle at 80% 50%, rgba(118, 75, 162, 0.2) 0%, transparent 50%);
         pointer-events: none;
-        z-index: 0;
+        z-index: -1;
     }
 
     /* Main Content Area */
     .main {
-        background: rgba(255, 255, 255, 0.98);
+        background: rgba(255, 255, 255, 0.92) !important;
         border-radius: 20px;
         padding: 2rem;
         margin: 1rem;
         box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-        position: relative;
-        z-index: 1;
+        backdrop-filter: blur(10px);
     }
 
     /* Header Styling */
