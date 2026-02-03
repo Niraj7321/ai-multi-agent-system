@@ -6,6 +6,7 @@ import streamlit as st
 import os
 from pathlib import Path
 import sys
+from io import BytesIO
 
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent))
@@ -168,6 +169,19 @@ def display_sidebar():
                 """
             )
 
+        with st.expander("🎨 Presentation Agent"):
+            st.write(
+                """
+                **Role:** Senior Presentation Designer
+
+                **Capabilities:**
+                - Convert text to slides
+                - Structure content for presentations
+                - Create engaging slide decks
+                - Visual hierarchy design
+                """
+            )
+
         return api_key, model_name, temperature, use_anthropic
 
 
@@ -193,8 +207,8 @@ def main():
     with col2:
         content_type = st.selectbox(
             "📝 Content Type",
-            ["blog post", "article", "report", "white paper"],
-            help="Blog posts include SEO-friendly structure with code examples"
+            ["blog post", "article", "report", "white paper", "presentation"],
+            help="Choose content format - presentation creates slide decks"
         )
 
     # Execute button
@@ -228,12 +242,17 @@ def main():
                     use_anthropic=use_anthropic
                 )
 
-                st.write("👨‍🔬 Research Agent is gathering information...")
-                st.write("✍️ Writer Agent is creating content...")
-                st.write("🔍 Reviewer Agent is performing quality check...")
-
-                # Execute workflow
-                result = manager.execute_research_workflow(topic, content_type)
+                # Execute workflow based on content type
+                if content_type == "presentation":
+                    st.write("👨‍🔬 Research Agent is gathering information...")
+                    st.write("✍️ Writer Agent is creating content...")
+                    st.write("🎨 Presentation Agent is designing slides...")
+                    result = manager.execute_presentation_workflow(topic)
+                else:
+                    st.write("👨‍🔬 Research Agent is gathering information...")
+                    st.write("✍️ Writer Agent is creating content...")
+                    st.write("🔍 Reviewer Agent is performing quality check...")
+                    result = manager.execute_research_workflow(topic, content_type)
 
                 st.session_state.execution_result = result
                 st.session_state.is_running = False
@@ -270,13 +289,129 @@ def main():
                 output_text = str(result["result"])
                 st.markdown(output_text)
 
-                # Download button
-                st.download_button(
-                    label="📥 Download Content",
-                    data=output_text,
-                    file_name=f"{result['topic'].replace(' ', '_')}.md",
-                    mime="text/markdown",
-                )
+                # Export options
+                if result['content_type'] == "presentation":
+                    st.subheader("📥 Export Presentation")
+
+                    col1, col2, col3, col4 = st.columns(4)
+
+                    with col1:
+                        # Markdown download
+                        st.download_button(
+                            label="📝 Markdown",
+                            data=output_text,
+                            file_name=f"{result['topic'].replace(' ', '_')}.md",
+                            mime="text/markdown",
+                            use_container_width=True
+                        )
+
+                    with col2:
+                        # PowerPoint export
+                        try:
+                            from src.presentation_exporter import export_presentation
+                            pptx_data = export_presentation(output_text, 'pptx', result['topic'])
+                            st.download_button(
+                                label="📊 PowerPoint",
+                                data=pptx_data,
+                                file_name=f"{result['topic'].replace(' ', '_')}.pptx",
+                                mime="application/vnd.openxmlformats-officedocument.presentationml.presentation",
+                                use_container_width=True
+                            )
+                        except Exception as e:
+                            st.button("📊 PowerPoint", disabled=True, use_container_width=True, help=f"Install python-pptx: {str(e)}")
+
+                    with col3:
+                        # HTML export
+                        try:
+                            from src.presentation_exporter import export_presentation
+                            html_data = export_presentation(output_text, 'html', result['topic'])
+                            st.download_button(
+                                label="🌐 HTML",
+                                data=html_data,
+                                file_name=f"{result['topic'].replace(' ', '_')}.html",
+                                mime="text/html",
+                                use_container_width=True
+                            )
+                        except Exception as e:
+                            st.button("🌐 HTML", disabled=True, use_container_width=True, help=f"Install markdown: {str(e)}")
+
+                    with col4:
+                        # PDF export
+                        try:
+                            from src.presentation_exporter import export_presentation
+                            pdf_data = export_presentation(output_text, 'pdf', result['topic'])
+                            st.download_button(
+                                label="📄 PDF",
+                                data=pdf_data,
+                                file_name=f"{result['topic'].replace(' ', '_')}.pdf",
+                                mime="application/pdf",
+                                use_container_width=True
+                            )
+                        except Exception as e:
+                            st.button("📄 PDF", disabled=True, use_container_width=True, help=f"Install weasyprint: {str(e)}")
+
+                    # Export All button with multiprocessing
+                    st.markdown("---")
+                    st.markdown("**⚡ Quick Export (Multiprocessing):**")
+
+                    if st.button("🚀 Export to All Formats (Parallel)", type="primary", use_container_width=True):
+                        try:
+                            from src.presentation_exporter import export_presentation_parallel
+                            import zipfile
+                            from datetime import datetime
+
+                            with st.spinner("Exporting to all formats in parallel... ⚡"):
+                                # Export to all formats simultaneously using multiprocessing
+                                exports = export_presentation_parallel(
+                                    output_text,
+                                    result['topic'],
+                                    formats=['pptx', 'html', 'pdf']
+                                )
+
+                                # Create ZIP file with all exports
+                                zip_buffer = BytesIO()
+                                with zipfile.ZipFile(zip_buffer, 'w', zipfile.ZIP_DEFLATED) as zip_file:
+                                    base_name = result['topic'].replace(' ', '_')
+
+                                    # Add Markdown
+                                    zip_file.writestr(f"{base_name}.md", output_text)
+
+                                    # Add PowerPoint
+                                    if 'pptx' in exports and not isinstance(exports['pptx'], str):
+                                        zip_file.writestr(f"{base_name}.pptx", exports['pptx'].read())
+
+                                    # Add HTML
+                                    if 'html' in exports:
+                                        zip_file.writestr(f"{base_name}.html", exports['html'])
+
+                                    # Add PDF
+                                    if 'pdf' in exports and not isinstance(exports['pdf'], str):
+                                        zip_file.writestr(f"{base_name}.pdf", exports['pdf'].read())
+
+                                zip_buffer.seek(0)
+
+                                st.success("✅ Exported to all formats! Download ZIP file below:")
+                                st.download_button(
+                                    label="📦 Download All Formats (ZIP)",
+                                    data=zip_buffer,
+                                    file_name=f"{result['topic'].replace(' ', '_')}_all_formats.zip",
+                                    mime="application/zip",
+                                    use_container_width=True
+                                )
+
+                                st.info("⚡ **Multiprocessing:** All formats exported simultaneously (3x faster!)")
+
+                        except Exception as e:
+                            st.error(f"Error during parallel export: {str(e)}")
+
+                else:
+                    # Standard content download
+                    st.download_button(
+                        label="📥 Download Content",
+                        data=output_text,
+                        file_name=f"{result['topic'].replace(' ', '_')}.md",
+                        mime="text/markdown",
+                    )
 
             with tab2:
                 st.json(

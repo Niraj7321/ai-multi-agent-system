@@ -12,7 +12,7 @@
 
 ### 🤖 AI Multi-Agent Content Generator
 ![AI Multi-Agent System](images/screenshots/ai-multiagent-dashboard.png)
-*Research, Write, and Review workflow with AI agents*
+*Research, Write, Review, and Convert to Presentations with 4 AI agents*
 
 ### 🎓 NrjAi Exam Preparation Platform
 ![Exam Dashboard](images/screenshots/exam-dashboard.png)
@@ -89,6 +89,23 @@ ai-multi-agent-system/
 - **SEO-optimized** with relevant tags
 - **Background service** (24/7 operation)
 - **Blogspot integration** (auto-publish)
+
+### 🎨 AI Presentation Generator (NEW!)
+- **Text-to-Slides conversion** powered by AI
+- **Professional slide decks** from any topic
+- **4 AI Agents** (Research → Write → Review → Present)
+- **Smart slide structuring** with visual suggestions
+- **Multiple Export Formats:**
+  - 📊 **PowerPoint (.pptx)** - Ready to present
+  - 🌐 **HTML** - Web-based slideshow
+  - 📄 **PDF** - Printable format
+  - 📝 **Markdown** - Edit and customize
+- **⚡ Multiprocessing Support:**
+  - Export to all formats **simultaneously**
+  - **3x faster** than sequential export
+  - One-click ZIP download with all formats
+- **10-15 slides** per presentation
+- **One-click export** to any format
 
 ---
 

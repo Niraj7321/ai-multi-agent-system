@@ -49,3 +49,8 @@ schedule>=1.2.0
 
 # Trending Topics Discovery
 beautifulsoup4>=4.12.3  # Already included above
+
+# Presentation Export Formats
+python-pptx>=0.6.23  # PowerPoint export
+weasyprint>=60.0  # PDF export
+markdown2>=2.4.0  # Enhanced Markdown to HTML
